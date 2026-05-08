@@ -17,11 +17,9 @@ public class ExternalApiService {
     public ExternalApiService(RestClient restClient, @Value("${external.api.key}") String apiKey) {
         this.restClient = restClient;
         this.apiKey = apiKey;
-        System.out.println(apiKey);
     }
 
     public List<ResponseDto> getEvByMake(String make){
-        System.out.println("Calling external API: electricvehicle?model=" + make);
         List<ResponseDto> eVehicle = restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("v1/electricvehicle")
@@ -46,12 +44,12 @@ public class ExternalApiService {
         return eVehicle;
     }
 
-    public List<ResponseDto> getEvByMinYear(int year){
-        System.out.println("Calling external API: electricvehicle?model=" + year);
+    public List<ResponseDto> getEvByTotalPower(int totalPower){
+        System.out.println("Calling external API: electricvehicle?model=" + totalPower);
         List<ResponseDto> eVehicle = restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("v1/electricvehicle")
-                        .queryParam("model", year)
+                        .queryParam("total_power", totalPower)
                         .build())
                 .header("X-Api-Key", apiKey)
                 .retrieve()

@@ -1,7 +1,11 @@
 package lt.viko.eif.astrukcinskas.trecias_pd_pi24sn.controller;
 
+import lt.viko.eif.astrukcinskas.trecias_pd_pi24sn.model.Vehicle.Vehicle;
+import lt.viko.eif.astrukcinskas.trecias_pd_pi24sn.service.CarAnalysisService;
+import org.hibernate.boot.model.internal.CreateKeySecondPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +20,10 @@ public class ExternalApiController {
     @Autowired
     private ExternalApiService externalApiService;
 
+    @Autowired
+    private CarAnalysisService carAnalysisService;
+
+
     public ExternalApiController(ExternalApiService externalApiService) {
         this.externalApiService = externalApiService;
     }
@@ -24,6 +32,8 @@ public class ExternalApiController {
     public ResponseEntity<List<ResponseDto>> getEvByMake(@RequestParam String make){
         var response = externalApiService.getEvByMake(make);
 
+        carAnalysisService.addCarsToMemory(response);
+
         return ResponseEntity.ok(response);
     }
 
@@ -31,12 +41,16 @@ public class ExternalApiController {
     public ResponseEntity<List<ResponseDto>> getEvByModel(@RequestParam String model){
         var response = externalApiService.getEvByModel(model);
 
+        carAnalysisService.addCarsToMemory(response);
+
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/minYear")
-    public ResponseEntity<List<ResponseDto>> getEvByMinYear(@RequestParam int year){
-        var response = externalApiService.getEvByMinYear(year);
+    @GetMapping("/totalPower")
+    public ResponseEntity<List<ResponseDto>> getEvByTotalPower(@RequestParam int totalPower){
+        var response = externalApiService.getEvByTotalPower(totalPower);
+
+        carAnalysisService.addCarsToMemory(response);
 
         return ResponseEntity.ok(response);
     }
@@ -45,6 +59,8 @@ public class ExternalApiController {
     public ResponseEntity<List<ResponseDto>> getEvByMakeAndModel(@RequestParam String make,
                                                                  @RequestParam String model){
         var response = externalApiService.getEvByMakeAndModel(make, model);
+
+        carAnalysisService.addCarsToMemory(response);
 
         return ResponseEntity.ok(response);
     }
