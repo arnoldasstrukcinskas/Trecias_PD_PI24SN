@@ -1,5 +1,6 @@
 package lt.viko.eif.astrukcinskas.trecias_pd_pi24sn.service;
 
+import lt.viko.eif.astrukcinskas.trecias_pd_pi24sn.service.DTO.ResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,46 @@ public class ExternalApiService {
                 .uri(uriBuilder -> uriBuilder
                         .path("v1/electricvehicle")
                         .queryParam("make", make)
+                        .build())
+                .header("X-Api-Key", apiKey)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ResponseDto>>() {});
+        return eVehicle;
+    }
+
+    public List<ResponseDto> getEvByModel(String model){
+        System.out.println("Calling external API: electricvehicle?model=" + model);
+        List<ResponseDto> eVehicle = restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("v1/electricvehicle")
+                        .queryParam("model", model)
+                        .build())
+                .header("X-Api-Key", apiKey)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ResponseDto>>() {});
+        return eVehicle;
+    }
+
+    public List<ResponseDto> getEvByMinYear(int year){
+        System.out.println("Calling external API: electricvehicle?model=" + year);
+        List<ResponseDto> eVehicle = restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("v1/electricvehicle")
+                        .queryParam("model", year)
+                        .build())
+                .header("X-Api-Key", apiKey)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ResponseDto>>() {});
+        return eVehicle;
+    }
+
+    public List<ResponseDto> getEvByMakeAndModel(String make, String model){
+        System.out.println("Calling external API: electricvehicle?model=" + model);
+        List<ResponseDto> eVehicle = restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("v1/electricvehicle")
+                        .queryParam("make", make)
+                        .queryParam("model", model)
                         .build())
                 .header("X-Api-Key", apiKey)
                 .retrieve()
