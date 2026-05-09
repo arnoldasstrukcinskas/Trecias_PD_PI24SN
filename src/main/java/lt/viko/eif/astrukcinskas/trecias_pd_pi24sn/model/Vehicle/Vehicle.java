@@ -43,6 +43,14 @@ public class Vehicle {
     @JoinColumn(name = "charger_id")
     private Charger charger;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getMake() {
         return make;
     }

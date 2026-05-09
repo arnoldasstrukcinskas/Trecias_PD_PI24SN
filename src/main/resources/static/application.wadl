@@ -3,8 +3,11 @@
         xmlns="http://wadl.dev.java.net/2009/02"
         xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+    <doc xml:lang="en" title="EV Analysis API">
+        REST API for searching electric vehicles and creating AI analysis.
+    </doc>
+
     <resources base="http://localhost:8081">
-        <!--        Vehicle       -->
         <resource path="/vehicles">
             <method name="GET">
                 <request>
@@ -24,8 +27,6 @@
                 <response status="500"/>
             </method>
         </resource>
-
-        <!--        Analyzer       -->
         <resource path="/analysis">
             <method name="GET">
                 <request>
@@ -36,8 +37,6 @@
                 </response>
                 <response status="400"/>
             </method>
-        </resource>
-        <resource path="/analysis">
             <method name="POST">
                 <response status="200">
                     <representation mediaType="application/json"/>
@@ -48,30 +47,26 @@
         <resource path="/analysis/{id}">
             <method name="DELETE">
                 <request>
-                    <param name="id" style="query" type="xs:integer" required="true"/>
+                    <param name="id" style="template" type="xs:integer" required="true"/>
                 </request>
                 <response status="204">
                     <representation mediaType="application/json"/>
                 </response>
                 <response status="400"/>
             </method>
-        </resource>
-        <resource path="/analysis/{id}">
             <method name="PUT">
                 <request>
-                    <param name="id" style="query" type="xs:integer" required="true"/>
+                    <param name="id" style="template" type="xs:integer" required="true"/>
                     <param name="prompt" style="query" type="xs:string" required="true"/>
-                </request>]
+                </request>
                 <response status="200">
                     <representation mediaType="application/json"/>
                 </response>
                 <response status="400"/>
             </method>
-        </resource>
-        <resource path="/analysis/{id}">
             <method name="GET">
                 <request>
-                    <param name="id" style="query" type="xs:integer" required="true"/>
+                    <param name="id" style="template" type="xs:integer" required="true"/>
                 </request>
                 <response status="200">
                     <representation mediaType="application/json"/>
@@ -80,5 +75,4 @@
             </method>
         </resource>
     </resources>
-
 </application>
