@@ -106,4 +106,9 @@ Password: (Leave blank)
 ```bash
   Go to: http://localhost:8081/swagger-ui/index.html
 ```
-#### 3. Last bot not least
+##### When you finish working, I suggest turning off Ollama via CMD, as it will not close automatically.
+```bash
+ollama list (For checking which lama version do you have)
+ollama stop llama3.2:3b (enter version which is in the list)
+```
+#### 3. Last bot not least, Have Fun!!
