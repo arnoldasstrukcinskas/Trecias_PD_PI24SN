@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/analysis")
 public class AnalysisController {
 
     @Autowired
@@ -29,9 +30,13 @@ public class AnalysisController {
         this.carAnalysisService = carAnalysisService1;
     }
 
-    @GetMapping("/analysis")
+    @GetMapping
     public ResponseEntity<String> makeAnalysis(@RequestParam String message) throws JsonProcessingException {
         List<Vehicle> cars = carAnalysisService.getMemmoryVehicles();
+
+        if (message.isEmpty() && message.isBlank()){
+            return ResponseEntity.badRequest().build();
+        }
 
         String response = analyzerService.createCarsAnalysis(cars, message);
 
@@ -43,8 +48,8 @@ public class AnalysisController {
 
     }
 
-    @PostMapping("/addAnalysis")
-    public ResponseEntity<Analysis> AddAnalysisDoDb() throws InvalidObjectException {
+    @PostMapping
+    public ResponseEntity<Analysis> saveAnalysis() throws InvalidObjectException {
         if (this.temporraryAnalysis == null){
             return ResponseEntity.notFound().build();
         }
@@ -55,14 +60,14 @@ public class AnalysisController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Analysis> RemoveAnalysisFromDb(@PathVariable int id) throws InvalidObjectException {
+    public ResponseEntity<Integer> RemoveAnalysisFromDb(@PathVariable int id) throws InvalidObjectException {
         if( id <= 0){
             return ResponseEntity.badRequest().build();
         }
 
         var response = carAnalysisService.removeAnalysisFromDb(id);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

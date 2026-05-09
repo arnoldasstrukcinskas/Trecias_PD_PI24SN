@@ -36,13 +36,18 @@ public class CarAnalysisService {
         {
             throw new InvalidParameterException("Car analysis service: there is no vehicles for adding");
         }
-        this.memmoryVehicles.clear();
 
         for (ResponseDto response : vehicles){
             memmoryVehicles.add(convertFromResponseToVehicle(response));
         }
 
         return this.memmoryVehicles;
+    }
+
+    public String clearVehicleMemmory(){
+        this.memmoryVehicles = new ArrayList<>();
+
+        return "Car analysis service: vehicle memmory cleared";
     }
 
     public Analysis addAnalysisToDb(Analysis analysis) throws InvalidObjectException {
@@ -58,7 +63,7 @@ public class CarAnalysisService {
         return response;
     }
 
-    public Analysis removeAnalysisFromDb(int id) throws InvalidObjectException {
+    public int removeAnalysisFromDb(int id) throws InvalidObjectException {
         if (id <= 0)
         {
             throw new IllegalArgumentException("Car analysis service: Failed to remove analysis from db, missing analysis");
@@ -72,7 +77,7 @@ public class CarAnalysisService {
 
         analysisRepository.deleteById(id);
 
-        return analysis;
+        return id;
     }
 
     public Analysis updateAnalysisInDb(int id, String prompt) throws InvalidObjectException, JsonProcessingException {

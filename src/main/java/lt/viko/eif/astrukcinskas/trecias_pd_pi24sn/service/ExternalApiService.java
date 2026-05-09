@@ -19,6 +19,31 @@ public class ExternalApiService {
         this.apiKey = apiKey;
     }
 
+    public List<ResponseDto> getVehicle(String make, String model, Integer totalPower){
+
+        boolean hasMake = make != null && !make.isBlank();
+        boolean hasModel = model != null && !model.isBlank();
+        boolean hasTotalPower = totalPower != null && totalPower > 0;
+
+        if (hasMake && !hasModel && !hasTotalPower){
+            return getEvByMake(make);
+        }
+
+        if (!hasMake && hasModel && !hasTotalPower) {
+            return getEvByModel(model);
+        }
+
+        if (!hasMake && !hasModel && hasTotalPower) {
+            return getEvByTotalPower(totalPower);
+        }
+
+        if (hasMake && hasModel && !hasTotalPower) {
+            return getEvByMakeAndModel(make, model);
+        }
+
+        return null;
+    }
+
     public List<ResponseDto> getEvByMake(String make){
         List<ResponseDto> eVehicle = restClient.get()
                 .uri(uriBuilder -> uriBuilder
